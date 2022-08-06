@@ -1,0 +1,47 @@
+﻿@model WeatherViewModel
+@{
+    ViewData["Title"] = "WeatherKit C#/.NET Example";
+}
+
+<div>
+    <h1 class="display-4">WeatherKit Example</h1>
+
+    <form method="post">
+        <div class="row">
+            <div class="col-6">
+                <div class="form-floating mb-3">
+                    <input class="form-control" asp-for="Latitude" placeholder="Latitude">
+                    <label asp-for="Latitude">Latitude</label>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-floating mb-3">
+                    <input class="form-control" asp-for="Longitude" placeholder="43.33">
+                    <label asp-for="Longitude">Longitude</label>
+                </div>
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </form>
+
+    @if (Model?.Weather?.ForecastDaily?.Days != null)
+    {
+        foreach (var day in Model.Weather.ForecastDaily.Days)
+        {
+            <div class="card my-3" style="width: 18rem;">
+                <div class="card-header">
+                    @day.ForecastStart?.ToString("dddd, M/d")
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">@((day.TemperatureMax == null) ? string.Empty : Math.Round(UnitConverter.ConvertCelsiusToFahrenheight(day.TemperatureMax) ?? 0, 0).ToString() + "°")</h5>
+                    <p class="card-text">
+                        @day.ConditionCode?.GetEnumDisplayName()
+                    </p>
+                </div>
+            </div>
+        }
+    }
+</div>
+
