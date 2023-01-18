@@ -154,8 +154,6 @@ namespace WeatherKitExample.Services
                 {
                     response.EnsureSuccessStatusCode();
 
-                    var blah = await response.Content.ReadAsStringAsync();
-
                     using (var httpStream = await response.Content.ReadAsStreamAsync())
                     {
                         return await JsonSerializer.DeserializeAsync<Weather>(httpStream);
