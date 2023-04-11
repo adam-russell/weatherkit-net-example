@@ -3,11 +3,12 @@ namespace WeatherKitExample.Models
 {
     public enum WeatherKitDataSetType
     {
+        None = -1,
         CurrentWeather = 0,
         ForecastDaily,
         ForecastHourly,
         ForecastNextHour,
-        WeatherAlerts
+        WeatherAlerts,
+        TrendComparison
     }
 }
-

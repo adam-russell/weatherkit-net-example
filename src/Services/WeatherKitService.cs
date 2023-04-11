@@ -105,11 +105,23 @@ namespace WeatherKitExample.Services
                     using (var httpStream = await response.Content.ReadAsStreamAsync())
                     {
                         return (await JsonSerializer.DeserializeAsync<List<string>>(httpStream))?
-                            .Select(d => (WeatherKitDataSetType)Enum.Parse(typeof(WeatherKitDataSetType), d, true))
+                            .Select(d => SafeDataSetParse(d))
                             .ToList();
                     }
                 }
             }
+        }
+
+        private WeatherKitDataSetType SafeDataSetParse(string? value)
+        {
+            WeatherKitDataSetType dataSetType;
+
+            if (Enum.TryParse(value, true, out dataSetType))
+            {
+                return dataSetType;
+            }
+
+            return WeatherKitDataSetType.None;
         }
 
         public async Task<Weather?> GetWeather(double latitude, double longitude, List<WeatherKitDataSetType> datasets, string timezoneId, string language = "en")
